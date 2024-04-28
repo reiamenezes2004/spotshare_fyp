@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotShare - Renter Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/styles.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <div id="app">
+        <div class="container3">
+            <h1>Renter Login</h1>
+            <a href="register-renter.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+            <form id="login-form" @submit.prevent="submitForm">
+                <form id="login-form">
+                    <div class="form-row">
+                        <label for="email">Enter Email:</label>
+                        <input type="email" id="email" name="email" v-model="email" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="password">Enter Password:</label>
+                        <input type="password" id="password" name="password" v-model="password" required>
+                    </div>
+
+                <input type="submit" value="Submit">
+            </form>
+            <p><a href="register-renter.html">Don't have an account? Register now.</a></p>
+    </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                email: '',
+                password: ''
+            },
+            methods: {
+                submitForm() {
+                    const formData = {
+                        email: this.email,
+                        password: this.password,
+                    };
+                    // Send a POST request to the server
+                    fetch('http://localhost:3000/loginrenter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                console.log('Form submitted successfully');
+                                location.href="renter/renter-dashboard.html"
+                                // Redirect to another page or display a success message as needed
+                            } else {
+                                console.error('Error submitting form');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
