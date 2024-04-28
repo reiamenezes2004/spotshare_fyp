@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Renter Requests</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+    <style>
+     #calendar-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #calendar {
+            width: 600px;
+            font-size: 16px;
+            border-radius: px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Renter Requests</h1>
+    <nav>
+        <ul>
+            <li><a href="../renter/renter-dashboarrd.html">Home</a></li>
+            <li><a href="../renter/renter-dashboard.html" class="active">Requests</a></li>
+            <li><a href="../renter/renter-messages.html">Messages</a></li>
+            <li><a href="../renter/renter-profile.html">Profile</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="request-container1">
+        <div class="request">
+            <p>User Name: Reia Menezes<br> Booking Sent: May 1, 2024 (Wednesday)<br>Booking Time: 10:00 AM <br> Location: <a href="//www.google.com/maps/place/Oxford+Office+Equipment+LLC/@25.2681165,55.161237,12z/data=!4m10!1m2!2m1!1soxford+offices!3m6!1s0x3e5f43354839453d:0x5e5beb88bc5b66db!8m2!3d25.2681165!4d55.3136723!15sCg5veGZvcmQgb2ZmaWNlc1oQIg5veGZvcmQgb2ZmaWNlc5IBGW9mZmljZV9lcXVpcG1lbnRfc3VwcGxpZXLgAQA!16s%2Fg%2F119tfgzcy?entry=ttu" target="_blank">Mirdif Hills</a></p>
+            <div class="actions">
+              <button class="accept-button" onclick="acceptRequest(this)">Accept</button>
+              <button class="delete-button" onclick="deleteRequest(this)">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div id="calendar-container">
+    <div id="calendar"></div>
+</main>
+</main>
+
+<!-- Script block placed after the main content -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<script>
+  function acceptRequest(button) {
+    // Get the parent element of the request
+    var requestContainer = button.closest('.request-container1');
+    // Remove the request from the DOM
+    requestContainer.remove();
+
+    var calendarEl = document.getElementById('calendar');
+    if (calendarEl) {
+        // Create a new FullCalendar.Calendar instance
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                {
+                    title: 'Upcoming Booking',
+                    start: '2024-05-06', // Start date
+                    end: '2024-05-09', // End date
+                    backgroundColor: 'red', // Background color of the event
+                }
+            ],
+        });
+        calendar.render();
+        alert('Booking request accepted and event added to calendar.');
+    } else {
+        console.error('Calendar element not found.');
+    }
+}
+
+function deleteRequest(button) {
+    // Ask for confirmation using a dialog
+    var isConfirmed = confirm('Are you sure you want to delete this request?');
+
+    // Check if the user confirmed the deletion
+    if (isConfirmed) {
+        // Get the parent element of the request
+        var requestContainer = button.closest('.request-container1');
+        // Remove the request from the DOM
+        requestContainer.remove();
+    } else {
+        // If the user cancels the deletion, do nothing
+        return;
+    }
+}
+
+</script>
+</body>
+</html>

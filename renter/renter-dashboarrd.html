@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Renter Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="icon" href="../images/logo.png" type="image/x-icon">
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
+</head>
+
+<body>
+  <header>
+    <h1>Renter Dashboard</h1>
+    <nav>
+      <ul>
+        <li><a href="/renter/renter-dashboard.html" class="active">Home</a></li>
+        <li><a href="../renter/renter-requests.html">Requests</a></li>
+        <li><a href="../renter/renter-messages.html">Messages</a></li>
+        <li><a href="../renter/renter-profile.html">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="app">
+    <h2>Your Current Listings</h2> <!-- Added heading -->
+
+    <!-- Your existing static listings -->
+    <div class="image-container">
+      <div class="image">
+        <img src="../images/parking1renter.jpg" alt="Image 1">
+        <div>
+          <p style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; padding-left: 10px;">Name:
+            Mirdif Hills Villa Parking<br>Type: Villa<br>Day and Time: Monday-Thursday from 9am-5pm<br>Capacity(cars):
+            2<br>Price: Dhs 25<br>Location: <a href="https://www.google.com/maps?q=Mirdif+Hills+Dubai+UAE"
+              target="_blank">Mirdif Hills</a></p>
+          <div class="edit-delete">
+            <button class="edit-button" onclick="showEditPopup(1)">Edit</button>
+            <button class="delete-button" onclick="confirmDelete('{{listingId}}')">Delete</button>
+          </div>
+        </div>
+      </div>
+      <div class="image">
+        <img src="../images/parking2renter.jpg" alt="Image 2">
+        <div>
+          <p style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; padding-left: 10px;">Name:
+            Oxford Offices Parking<br>Type: Building<br>Day and Time: Wednesday from 10am-5pm<br>Capacity(cars):
+            3<br>Price: Dhs 20<br>Location: <a
+              href="https://www.google.com/maps/place/Oxford+Office+Equipment+LLC/@25.2681165,55.161237,12z/data=!4m10!1m2!2m1!1soxford+offices!3m6!1s0x3e5f43354839453d:0x5e5beb88bc5b66db!8m2!3d25.2681165!4d55.3136723!15sCg5veGZvcmQgb2ZmaWNlc1oQIg5veGZvcmQgb2ZmaWNlc5IBGW9mZmljZV9lcXVpcG1lbnRfc3VwcGxpZXLgAQA!16s%2Fg%2F119tfgzcy?entry=ttu"
+              target="_blank">Oxford Offices</a></p>
+          <div class="edit-delete">
+            <button class="edit-button" onclick="showEditPopup(2)">Edit</button>
+            <button class="delete-button" onclick="confirmDelete('{{listingId}}')">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="image">
+        <img src="../images/parking3renter.jpg" alt="Image 3">
+        <div>
+          <p style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; padding-left: 10px;">Name:
+            Middlesex Parking<br>Type: Garage<br>Day and Time: Friday from 12pm-2pm<br>Capacity(cars): 2<br>Price: Dhs
+            30<br>Location: <a
+              href="https://www.google.com/maps/place/Middlesex+University+Dubai+-+Main+Campus/@25.1034345,55.1594649,17z/data=!3m1!4b1!4m6!3m5!1s0x3e5f6b6b695079cf:0x39837c77fd4e2851!8m2!3d25.1034297!4d55.1643358!16s%2Fg%2F11h1y72ky8?entry=ttu"
+              target="_blank">Middlesex</a></p>
+          <div class="edit-delete">
+            <button class="edit-button" onclick="showEditPopup('{{_id}}')">Edit</button>
+            <button class="delete-button" onclick="confirmDelete('{{listingId}}')">Delete</button>
+          </div>
+</div>
+</div>
+
+          <div class="image">
+            <img src="../images/parking4renter.jpg" alt="Image 4">
+            <div>
+              <p style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; padding-left: 10px;">Name:
+                Al Nahda Tower B<br>Type: Apartment<br>Day and Time: Tuesday 3pm-6pm<br>Capacity(cars): 2<br>Price: Dhs
+                10<br>Location: <a
+                  href="https://www.google.com/maps/place/Al+Nahda+Tower+B+-+Al+Ittihad+St+-+Al+Nahda+-+Sharjah+-+United+Arab+Emirates/@25.3086699,55.3754446,17z/data=!3m1!4b1!4m6!3m5!1s0x3e5f5b8524d759fb:0xa3de3ad1392f94e8!8m2!3d25.3086651!4d55.3780195!16s%2Fg%2F11rw_p5dd_?entry=ttu"
+                  target="_blank">Al Nahda B Tower</a></p>
+              <div class="edit-delete">
+                <button class="edit-button" onclick="showEditPopup('{{_id}}')">Edit</button>
+                <button class="delete-button" onclick="confirmDelete('{{listingId}}')">Delete</button>
+              </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="add-listing">
+      <a href="../renter/addalisting.html" class="add-listing-button">Add a New Listing</a>
+    </div>
+  </main>
+
+  <!-- Popup for editing listing details -->
+  <div class="popup" id="editPopup">
+    <span class="popup-close" style="cursor: pointer" onclick="hideEditPopup()">X</span>
+    <!-- Popup content -->
+    <h3>Edit Listing</h3>
+    <form id="editForm">
+      <!-- Editable form fields for listing details -->
+      <!-- Name -->
+      <label for="editName">Name:</label>
+      <input type="text" id="editName" name="editName">
+
+      <!-- Type -->
+      <label for="editType">Type:</label>
+      <input type="text" id="editType" name="editType">
+
+      <!-- Day and Time -->
+      <label for="editDayTime">Day and Time:</label>
+      <input type="text" id="editDayTime" name="editDayTime">
+
+      <!-- Capacity -->
+      <label for="editCapacity">Capacity:</label>
+      <input type="text" id="editCapacity" name="editCapacity">
+
+      <!-- Price -->
+      <label for="editPrice">Price:</label>
+      <input type="text" id="editPrice" name="editPrice">
+
+      <!-- Location -->
+      <label for="editLocation">Location:</label>
+      <input type="text" id="editLocation" name="editLocation">
+
+      <!-- Done button -->
+      <button type="submit" onclick="updateListing(event, '{{listingId}}')">Done</button>
+    </form>
+  </div>
+
+  <!-- Overlay for the popup -->
+  <div id="overlay"></div>
+
+  <!-- JavaScript to populate form fields with existing data -->
+  <script>
+    // Function to show the edit popup and populate form fields with existing data
+    function showEditPopup(listingId) {
+      var popup = document.getElementById('editPopup');
+      var overlay = document.getElementById('overlay');
+      popup.style.display = 'block';
+      overlay.style.display = 'block';
+
+      // Get existing data for the listing with the given ID
+      var listingData = getListingData(listingId);
+
+      // Populate form fields with existing data
+      document.getElementById('editName').value = listingData.name;
+      document.getElementById('editType').value = listingData.type;
+      document.getElementById('editDayTime').value = listingData.dayTime;
+      document.getElementById('editCapacity').value = listingData.capacity;
+      document.getElementById('editPrice').value = listingData.price;
+      document.getElementById('editLocation').value = listingData.location;
+    }
+
+    // Function to hide the edit popup
+    function hideEditPopup() {
+      var popup = document.getElementById('editPopup');
+      var overlay = document.getElementById('overlay');
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+
+    // Function to get existing data for the listing with the given ID (replace this with your actual data fetching logic)
+    function getListingData(listingId) {
+      // Sample data (replace with your actual data)
+      var listings = [
+        {
+          id: 1,
+          name: 'Mirdif Hills Villa Parking',
+          type: 'Villa',
+          dayTime: 'Monday-Thursday from 9am-5pm',
+          capacity: '2',
+          price: 'Dhs 25',
+          location: 'Mirdif Hills, Dubai, UAE'
+        },
+        {
+          id: 2,
+          name: 'Oxford Offices Parking',
+          type: 'Building',
+          dayTime: 'Wednesday from 10am-5pm',
+          capacity: '3',
+          price: 'Dhs 20',
+          location: 'Oxford Offices, Dubai, UAE'
+        },
+        {
+          id: 3,
+          name: 'Middlesex Parking',
+          type: 'Garage',
+          dayTime: 'Friday from 12pm-2pm',
+          capacity: '2',
+          price: 'Dhs 30',
+          location: 'Middlesex, Dubai, UAE'
+        }
+      ];
+
+      // Find the listing with the given ID
+      var listing = listings.find(function (item) {
+        return item.id === listingId;
+      });
+
+      return listing;
+    }
+
+    function updateListing(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Get the parent element of the form
+      const form = event.target.closest('form');
+
+      // Get the listingId from the data attribute of the form
+      const listingId = form.dataset.listingId;
+
+      // Get form data
+      const formData = {
+        name: form.querySelector('#editName').value,
+        type: form.querySelector('#editType').value,
+        dayTime: form.querySelector('#editDayTime').value,
+        capacity: form.querySelector('#editCapacity').value,
+        price: form.querySelector('#editPrice').value,
+        location: form.querySelector('#editLocation').value,
+      };
+
+      // Send PUT request to update the listing
+      fetch(`http://localhost:3000/renterlistings/${listingId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          if (response.ok) {
+            // Listing updated successfully
+            alert('Listing updated successfully');
+            // Optionally, close the edit popup or reload the listings
+          } else {
+            // Error updating listing
+            alert('Error updating listing');
+          }
+        })
+        .catch(error => {
+          console.error('Error updating listing:', error);
+          alert('Error updating listing');
+        });
+    }
+
+
+    function updateBackendListing(listingId, updatedData) {
+      // Send the updated data to your backend server using fetch or any other method
+      // Example:
+      fetch(`http://localhost:3000/renterlistings/${listingId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+      })
+        .then(response => {
+          if (response.ok) {
+            // Backend listing updated successfully
+          } else {
+            // Error updating backend listing
+            console.error('Error updating backend listing');
+          }
+        })
+        .catch(error => {
+          console.error('Error updating backend listing:', error);
+        });
+    }
+
+
+
+
+
+
+
+    function confirmDelete(listingId) {
+      const isConfirmed = confirm('Are you sure you want to delete this listing?');
+
+      if (isConfirmed) {
+        fetch(`http://localhost:3000/renterlistings/`, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (response.ok) {
+              alert('Listing deleted successfully');
+              location.href="../renter/delete.html"// Reload the page after successful deletion
+            } else {
+              alert('Error deleting listing');
+            }
+          })
+          .catch(error => {
+            console.error('Error deleting listing:', error);
+            alert('Error deleting listing');
+          });
+      } else {
+        // Do nothing
+        return;
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+  </script>
+</body>
+
+</html>

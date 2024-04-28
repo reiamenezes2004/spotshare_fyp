@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Renter Profile</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="icon" href="../images/logo.png" type="image/x-icon">
+</head>
+
+<body>
+  <header>
+    <h1>Renter Profile</h1>
+    <nav>
+      <ul>
+        <li><a href="../renter/renter-dashboarrd.html">Home</a></li>
+        <li><a href="../renter/renter-requests.html">Requests</a></li>
+        <li><a href="../renter/renter-messages.html" class="active">Messages</a></li>
+        <li><a href="../renter/renter-profile.html">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="user-profile">
+      <h2>Renter Profile</h2>
+      <div class="profile-details">
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <!-- Add more profile details here, like address, phone number, etc. -->
+      </div>
+      <div class="profile-actions">
+        <button>Edit Profile</button>
+
+        <!-- Popup for editing profile -->
+        <div id="edit-profile-popup" class="popup">
+          <h2>Edit Profile</h2>
+          <span class="popup-close" onclick="hideEditPopup()">X</span>
+          <form id="edit-profile-form">
+            <label for="edit-name">Name:</label>
+            <input type="text" id="edit-name" name="name" required>
+            <label for="edit-email">Email:</label>
+            <input type="email" id="edit-email" name="email" required>
+            <label for="edit-password">New Password:</label>
+            <input type="password" id="edit-password" name="password">
+            <button type="submit">Save Changes</button>
+          </form>
+        </div>
+        <!-- End of edit profile popup -->
+
+        <div class="upload-button" onclick="document.getElementById('profile-picture-input').click();">
+          Upload Profile Picture
+          <input type="file" id="profile-picture-input" style="display: none;" accept="image/*"
+            onchange="uploadProfilePicture()">
+        </div>
+        <button onclick="confirmSignOut()">Sign Out</button>
+        <!-- Add more profile actions here -->
+      </div>
+      <div class="profile-picture-container" id="profile-picture-container"></div>
+    </div>
+  </main>
+  <script>
+    // Hide the edit profile form initially
+    document.getElementById('edit-profile-popup').style.display = 'none';
+
+    // Function to show the edit profile popup
+    function showEditPopup() {
+      document.getElementById('edit-profile-popup').style.display = 'block';
+    }
+
+    // Function to hide the edit profile popup
+    function hideEditPopup() {
+      document.getElementById('edit-profile-popup').style.display = 'none';
+    }
+
+    // Show the edit profile form when the "Edit Profile" button is clicked
+    document.querySelector('.profile-actions button').addEventListener('click', showEditPopup);
+
+    // Handle form submission
+    document.getElementById('edit-profile-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Get updated profile information from the form
+      const newName = document.getElementById('edit-name').value;
+      const newEmail = document.getElementById('edit-email').value;
+      const newPassword = document.getElementById('edit-password').value;
+
+      // Here you can send the updated profile information to the backend
+      // Replace the following with your backend API endpoint and data sending logic
+      const data = {
+        name: newName,
+        email: newEmail,
+        password: newPassword
+      };
+
+      // Example of sending data to the backend using fetch API
+      fetch('http://localhost:3000/loginrenter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            // If the request is successful, update the profile details on the page
+            document.getElementById('name').innerText = newName;
+            document.getElementById('email').innerText = newEmail;
+
+            // Hide the edit profile form
+            hideEditPopup();
+          } else {
+            // Handle errors
+            console.error('Error:', response.statusText);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    });
+
+    function confirmSignOut() {
+      if (window.confirm("Are you sure you want to sign out?")) {
+        signOut();
+      }
+    }
+
+    function signOut() {
+      console.log("Signing out...");
+      window.location.href = "../home.html";
+    }
+
+    function uploadProfilePicture() {
+      document.getElementById('profile-picture-input').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const imgSrc = e.target.result;
+            const profileImg = document.createElement('img');
+            profileImg.src = imgSrc;
+            profileImg.alt = 'Profile Picture';
+            profileImg.classList.add('profile-image');
+            document.querySelector('.profile-picture-container').appendChild(profileImg);
+
+            // Save the image source to local storage
+            localStorage.setItem('profilePicture', imgSrc);
+          };
+          reader.readAsDataURL(file);
+        }
+        console.log("Profile picture uploaded");
+      });
+      const savedProfilePicture = localStorage.getItem('profilePicture');
+      if (savedProfilePicture) {
+        const profileImg = document.createElement('img');
+        profileImg.src = savedProfilePicture;
+        profileImg.alt = 'Profile Picture';
+        profileImg.classList.add('profile-image');
+        document.querySelector('.profile-picture-container').appendChild(profileImg);
+      }
+    }
+
+    // Replace the following lines with your own logic to fetch renter data
+    const renter = {
+      name: 'Reia Menezes',
+      email: 'reiamenezes04@gmail.com'
+    };
+
+    document.getElementById('name').innerText = renter.name;
+    document.getElementById('email').innerText = renter.email;
+
+    // Call the function to upload profile picture
+    uploadProfilePicture();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Renter Messages</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <h1>Renter Messages</h1>
+        <nav>
+            <ul>
+                <li><a href="../renter/renter-dashboarrd.html">Home</a></li>
+                <li><a href="../renter/renter-requests.html">Requests</a></li>
+                <li><a href="../renter/renter-messages.html" class="active">Messages</a></li>
+                <li><a href="../renter/renter-profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="message-container">
+            <div class="message" id="message1">
+                <p>Sender: Martin Luther</p>
+                <p>Date: January 10, 2024</p>
+                <p>Subject: Regarding Parking Inquiry</p>
+                <p>Message: Hi! Is it possible to reduce the price?</p>
+                <button onclick="reply('Martin Luther')">Reply</button>
+            </div>
+        </div>
+        <div class="message-container">
+            <div class="message" id="message1">
+                <p>Sender: Reia Menezes</p>
+                <p>Date: January 15, 2024</p>
+                <p>Subject: Regarding Rental Inquiry</p>
+                <p>Message: How many cars can I park in this space?.</p>
+                <button onclick="reply('Reia Menezes')">Reply</button>
+            </div>
+            </div>
+           
+            <!-- Reply form -->
+            <div id="reply-form" style="display: none;">
+                <h2>Reply to Message</h2>
+                <form>
+                    <label for="reply-message">Your Message:</label><br>
+                    <textarea id="reply-message" name="reply-message" rows="4" cols="50"></textarea><br>
+                    <input type="submit" value="Send">
+                </form>
+            </div>
+    </main>
+
+    <script src="messages.js"></script> <!-- Include your JavaScript file -->
+</body>
+
+</html>
