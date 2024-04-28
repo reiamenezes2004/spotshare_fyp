@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="../css/user-dashboard.css">
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>User Dashboard</h1>
+    </header>
+
+    <nav class="sidenav">
+        <ul>
+            <li><a href="../user/user-dashboard.html" class="active">Home</a></li>
+            <li><a href="../user/bookings.html">Bookings</a></li>
+            <li><a href="../user/user-messages.html">Messages</a></li>
+            <li><a href="../user/user-profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <section id="listings">
+            <h2>Available Parking Listings</h2>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="searchListings()">Search</button>
+            </div>
+            <div class="listing">
+                <img src="../images/parking1renter.jpg" alt="Parking Image">
+                <div class="listing-details">
+                    <h3>Mirdif Hills</h3>
+                    <p>Parking Type: Villa</p>
+                    <p>Day and Time: Monday-Thursday from 9am-5pm</p>
+                    <p>Capacity: 2 cars</p>
+                    <p>Price: Dhs 25</p>
+                    <p>Location: <a href="https://www.google.com/maps?q=Mirdif+Hills+Dubai+UAE" target="_blank">Mirdif
+                            Hills</a></p>
+                    <button onclick="bookListing('Mirdif Hills')">Book Now</button>
+                </div>
+            </div>
+            <div class="listing">
+                <img src="../images/parking2renter.jpg" alt="Parking Image">
+                <div class="listing-details">
+                    <h3>Oxford Offices</h3>
+                    <p>Parking Type: Building</p>
+                    <p>Day and Time: Wednesday from 10am-5pm</p>
+                    <p>Capacity: 1 cars</p>
+                    <p>Price: Dhs 20</p>
+                    <p>Location: <a
+                            href="https://www.google.com/maps/place/Oxford+Office+Equipment+LLC/@25.2681165,55.161237,12z/data=!4m10!1m2!2m1!1soxford+offices!3m6!1s0x3e5f43354839453d:0x5e5beb88bc5b66db!8m2!3d25.2681165!4d55.3136723!15sCg5veGZvcmQgb2ZmaWNlc1oQIg5veGZvcmQgb2ZmaWNlc5IBGW9mZmljZV9lcXVpcG1lbnRfc3VwcGxpZXLgAQA!16s%2Fg%2F119tfgzcy?entry=ttu"
+                            target="_blank">Oxford Offices</a></p>
+                    <button onclick="bookListing('Oxford Offices')">Book Now</button>
+                </div>
+            </div>
+            <div class="listing">
+                <img src="../images/parking3renter.jpg" alt="Parking Image">
+                <div class="listing-details">
+                    <h3>Middlesex Parking</h3>
+                    <p>Parking Type: Garage</p>
+                    <p>Day and Time: Friday from 12pm-2pm</p>
+                    <p>Capacity: 2 cars</p>
+                    <p>Price: Dhs 30</p>
+                    <p>Location: <a
+                            href="https://www.google.com/maps/place/Middlesex+University+Dubai+-+Main+Campus/@25.1034345,55.1594649,17z/data=!3m1!4b1!4m6!3m5!1s0x3e5f6b6b695079cf:0x39837c77fd4e2851!8m2!3d25.1034297!4d55.1643358!16s%2Fg%2F11h1y72ky8?entry=ttu"
+                            target="_blank">Middlesex</a></p>
+                    </p>
+                    <button onclick="bookListing('Middlesex Parking')">Book Now</button>
+                </div>
+            </div>
+            <div class="listing">
+                <img src="../images/parking4renter.jpg" alt="Parking Image">
+                <div class="listing-details">
+                    <h3>Al Nahda Tower B</h3>
+                    <p>Parking Type: Apartment</p>
+                    <p>Day and Time: Tuesday 3pm-6pm</p>
+                    <p>Capacity: 2 cars</p>
+                    <p>Price: Dhs 10</p>
+                    <p>Location: <a
+                            href="https://www.google.com/maps/place/Al+Nahda+Tower+B+-+Al+Ittihad+St+-+Al+Nahda+-+Sharjah+-+United+Arab+Emirates/@25.3086699,55.3754446,17z/data=!3m1!4b1!4m6!3m5!1s0x3e5f5b8524d759fb:0xa3de3ad1392f94e8!8m2!3d25.3086651!4d55.3780195!16s%2Fg%2F11rw_p5dd_?entry=ttu"
+                            target="_blank">Al Nahda B Tower</a></p>
+                    <button onclick="bookListing('Al Nahda Tower B')">Book Now</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>This website is made by Reia Menezes.</p>
+    </footer>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function () {
+            searchListings(this.value);
+        });
+
+        function searchListings(query) {
+            var listings = document.querySelectorAll('.listing');
+            listings.forEach(function (listing) {
+                var listingText = listing.innerText.toLowerCase();
+                if (listingText && listingText.includes(query.toLowerCase())) {
+                    listing.style.display = 'block'; // Show the listing if it matches the search input
+                } else {
+                    listing.style.display = 'none'; // Hide the listing if it doesn't match the search input
+                }
+            });
+        }
+
+        function bookListing(listingName) {
+            // Construct the request body
+            const requestBody = {
+                listingName: listingName,
+                userId: 'user123', // You can replace this with the actual user ID
+                bookingDate: new Date().toLocaleDateString(), // Get the current date as the booking date
+                bookingTime: new Date().toLocaleTimeString(), // Get the current time as the booking time
+                location: 'City, Country', // Replace this with the actual location
+                // Add any other necessary details here
+            };
+
+            // Send a POST request to the renter's endpoint
+            fetch('http://localhost:3000/renter-requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Display an alert when the booking request is sent successfully
+                        alert("Booking request sent successfully!");
+                    } else {
+                        throw new Error('Failed to send booking request');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Messages</title>
+    <link rel="stylesheet" href="../css/user-chat.css">
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>User Messages</h1>
+    </header>
+
+    <nav class="sidenav">
+        <ul>
+            <li><a href="../user/user-dashboard.html">Home</a></li>
+            <li><a href="../user/bookings.html">Bookings</a></li>
+            <li><a href="../user/user-messages.html" class="active">Messages</a></li>
+            <li><a href="../user/user-profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div id="chat-container">
+            <div id="users-column">
+                <h2>Users</h2>
+                <ul id="users-list">
+                    <li class="user-item">Reia Menezes</li>
+                </ul>
+            </div>
+            <div id="chat-column">
+                <div id="chat-header">
+                    <h2 id="selected-user"></h2>
+                </div>
+                <div id="messages-container">
+                    <p id="choose-user-text">Click on a user to talk to them!</p>
+                    <ul id="messages-list">
+                        <!-- Chat messages will be populated here -->
+                    </ul>
+                </div>
+                <form id="message-form">
+                    <textarea id="message-input" placeholder="Type your message..."></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>This website is made by Reia Menezes.</p>
+    </footer>
+
+    <script src="../js/user-messages.js"></script>
+    <script>
+        // Dummy texts for demonstration
+        let dummyTexts = [
+            { sender: 'Reia Menezes', content: 'Hello!' },
+            { selectedUser: 'Bot', content: "Hi! My name is Gerald the Bot" },
+            { sender: 'Reia Menezes', content: "I have a question about my booking?" },
+            { selectedUser: 'Bot', content: "I would love to assist you with that, please tell me your question!" },
+        ];
+
+        // Function to display dummy texts in the messages container
+        function displayDummyTexts(user) {
+            const messagesList = document.getElementById('messages-list');
+            messagesList.innerHTML = ''; // Clear previous messages
+
+            // Loop through dummy texts and create message elements
+            dummyTexts.forEach(text => {
+                const messageContainer = document.createElement('div');
+                messageContainer.classList.add('message-container');
+                if (text.sender === user) {
+                    messageContainer.classList.add('sent-message');
+                } else {
+                    messageContainer.classList.add('received-message');
+                }
+
+                const messageBubble = document.createElement('div');
+                messageBubble.classList.add('message-bubble');
+                messageBubble.textContent = text.content;
+
+                messageContainer.appendChild(messageBubble);
+                messagesList.appendChild(messageContainer);
+            });
+        }
+
+        // Function to generate a bot reply
+        function generateBotReply() {
+            const replies = [
+                "I'm a bot. How can I assist you?",
+                "That's interesting! Tell me more.",
+                "Sorry, I'm just a bot and I can't provide personal opinions.",
+                "I'm here to help. What do you need?",
+            ];
+            return replies[Math.floor(Math.random() * replies.length)];
+        }
+
+        // Function to simulate bot typing
+        function simulateBotTyping() {
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('message-container', 'received-message');
+            const typingBubble = document.createElement('div');
+            typingBubble.classList.add('message-bubble', 'typing-animation');
+            typingBubble.textContent = 'Typing...';
+            typingIndicator.appendChild(typingBubble);
+
+            const messagesList = document.getElementById('messages-list');
+            messagesList.appendChild(typingIndicator);
+
+            // Simulate delay before bot replies
+            setTimeout(() => {
+                const selectedUser = document.getElementById('selected-user').textContent.trim();
+                const botReply = generateBotReply();
+                dummyTexts.push({ sender: selectedUser, content: botReply });
+                displayDummyTexts(selectedUser);
+                messagesList.removeChild(typingIndicator); // Remove typing indicator
+            }, 2000); // Adjust delay as needed
+        }
+
+        // Event listener for user clicks
+        document.getElementById('users-list').addEventListener('click', function (event) {
+            if (event.target && event.target.matches('li.user-item')) {
+                const userName = event.target.textContent.trim();
+                const userList = document.querySelectorAll('.user-item');
+                userList.forEach(user => {
+                    user.classList.remove('active');
+                });
+                event.target.classList.add('active');
+                document.getElementById('selected-user').textContent = userName;
+                displayDummyTexts(userName);
+                document.getElementById('choose-user-text').style.display = 'none';
+            }
+        });
+
+        // Event listener for message form submission
+        document.getElementById('message-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            const messageInput = document.getElementById('message-input');
+            const messageContent = messageInput.value.trim();
+            if (messageContent !== '') {
+                const selectedUser = document.getElementById('selected-user').textContent.trim();
+                dummyTexts.push({ sender: 'You', content: messageContent }); // Add sent message to dummy texts
+                displayDummyTexts(selectedUser); // Update messages display
+                simulateBotTyping(); // Simulate bot typing
+                messageInput.value = ''; // Clear message input
+            }
+        });
+    </script>
+</body>
+
+</html>

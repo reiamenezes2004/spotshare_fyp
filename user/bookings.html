@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+    <link rel="stylesheet" href="../css/user-dashboard.css">
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+</head>
+<body>
+<header>
+    <h1>User Bookings</h1>
+</header>
+<nav class="sidenav">
+    <ul>
+        <li><a href="../user/user-dashboard.html">Home</a></li>
+        <li><a href="../user/bookings.html" class="active">Bookings</a></li>
+        <li><a href="../user/user-messages.html">Messages</a></li>
+        <li><a href="../user/user-profile.html">Profile</a></li>
+    </ul>
+</nav>
+<main>
+    <div id="calendar"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                {
+                    title: 'Booking!',
+                    start: '2024-05-06',
+                    backgroundColor: 'red',
+                },
+                {
+                    title: 'Booking!',
+                    start: '2024-05-07',
+                    backgroundColor: 'red',
+                },
+                {
+                    title: 'Booking!',
+                    start: '2024-05-08',
+                    backgroundColor: 'red',
+                },
+                {
+                    title: 'Booking!',
+                    start: '2024-05-09',
+                    backgroundColor: 'red',
+                }
+            ],
+            eventClick: function (info) {alert('You have an upcoming ' + info.event.title);
+            }
+        });
+        calendar.render();
+    });
+</script>
+<footer>
+    <p>This website is made by Reia Menezes.</p>
+</footer>
+</main>
+</body>
+</html>
